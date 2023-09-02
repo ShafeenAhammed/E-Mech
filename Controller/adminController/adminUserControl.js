@@ -38,7 +38,7 @@ module.exports={
     // user search
     searchUser : async (req,res)=>{
         const search= req.query.search;
-        // console.log(search);
+        
         try{
             const dataPerPage = 2; 
             const page = parseInt(req.query.page) || 1; // Get the requested page number from the query parameter
@@ -48,18 +48,15 @@ module.exports={
             const startIndex = (page - 1) * dataPerPage;
       
             const searchResults= await usercollection.find({$or:[{username:{$regex:search,$options:'i'}},{email:{$regex:search,$options:'i'}}]}).skip(startIndex).limit(dataPerPage).exec();
-            // console.log(searchResults);
+            
             if(searchResults == ""){
-                // console.log("no data");
+                
                 res.render('userManagement',{msg:"No Data!",data:searchResults, currentPage: page, totalPages});
-                // if(req.session.admin){
-                    
-                // }
+                 
+                
             }else{
                 res.render('userManagement',{data:searchResults, currentPage: page, totalPages});
-                // if(req.session.admin){
-                    
-                // }
+                
             }
         }
         catch(err){
@@ -69,7 +66,7 @@ module.exports={
     loadUserDetails: async (req,res)=>{
         try{
             const data= await usercollection.findOne({username:req.query.username});
-            console.log(data);
+            
             res.render('userDetails',{data});
         }
         catch(err){

@@ -120,7 +120,7 @@ module.exports = {
       if (req.files && req.files.length > 0) {
         newData.product_image = req.files.map((f) => f.filename);
       }
-      // console.log(newData);
+      
       await productCollection.findOneAndUpdate(
         { product_id: oldData },
         newData
@@ -135,7 +135,7 @@ module.exports = {
     try {
       const dImg = req.query.dImg;
       const dId = req.query.dId;
-      console.log("img", dImg);
+      
       await productCollection.updateOne(
         { product_id: dId },
         { $pull: { product_image: dImg } }

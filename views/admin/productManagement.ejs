@@ -1,5 +1,26 @@
 <%- include('adminNavbar')%>
-<br>
+<style>
+    /* Style for the content wrapper */
+    .content-wrapper {
+        min-height: calc(100vh - 56px); /* Adjust the value based on your navbar height */
+        position: relative; /* Needed for positioning the footer */
+        padding-bottom: 70px; /* Adjust this value to match your footer's height */
+    }
+
+    /* Style for the footer */
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #333; /* Adjust background color as needed */
+        color: #fff; /* Adjust text color as needed */
+        padding: 10px 0; /* Add padding for better appearance */
+    }
+</style>
+
+    <!-- Your website content goes here -->
+    <div class="content-wrapper">
+        <br>
 <h2 class="mx-2">Product Details</h2>
 <br>
 <div class="d-flex">
@@ -62,6 +83,8 @@
         </div>
     </div>
 </div>
+    </div>
+
 <br>
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">

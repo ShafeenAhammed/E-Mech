@@ -61,7 +61,7 @@ module.exports = {
     loadEditCoupon: async (req, res) => {
         try {
             const data = await couponCollection.findOne({ coupon_Code: req.query.edit })
-            console.log(data);
+            
             res.render('editCoupon', { data });
         }
         catch (err) {

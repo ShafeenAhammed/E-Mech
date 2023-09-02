@@ -30,7 +30,7 @@
             <h2 class="text-center pb-4">Categories</h2>
             <div class="row">
                 <% for(let i=0;i<category.length;i++){%>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-3 mb-3" style="box-shadow: rgba(109, 103, 103, 0.45) 0px 25px 20px -20px;">
                         <div class="card h-100 ">
                             <a href="/category_page?name=<%= category[i].category_name%>">
                                 <img src="/static/uploads/<%= category[i].category_image %>" class="card-img-top" alt="Category Image">
@@ -54,7 +54,7 @@
             <div class="row">
                 <% for (let i = 0; i < products.length; i++) { %>
                     <% let existCart = false; %>
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3 mb-4" style="box-shadow: rgba(109, 103, 103, 0.45) 0px 25px 20px -20px;">
                         <div class="card h-100">
                             <a href="/product_page?id=<%= products[i].product_id %>">
                                 <img src="/static/uploads/<%= products[i].product_image[0] %>" class="card-img-top" alt="Product Image">

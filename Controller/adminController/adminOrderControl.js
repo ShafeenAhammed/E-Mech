@@ -46,7 +46,7 @@ module.exports={
                 minute: 'numeric',
                 second: 'numeric'
             });
-            console.log(req.body.status);
+
             if(req.body.status=="Delivered"){
                 await orderCollection.updateOne({order_id:req.body.orderId},{$set:{order_status:req.body.status,delivery_date:delDateObj}});
             }else{

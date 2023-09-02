@@ -64,7 +64,7 @@
                 <div class="row">
                     <% for(let i=0;i<data.length;i++){%>
                         <% let existCart = false; %>
-                        <div class="col-md-3 mb-4">
+                        <div class="col-md-3 mb-4" style="box-shadow: rgba(109, 103, 103, 0.45) 0px 25px 20px -20px;">
                             <div class="card h-100 ">
                                 <a href="/product_page?id=<%= data[i].product_id%>">
                                     <img src="/static/uploads/<%= data[i].product_image[0]%>" class="card-img-top" alt="Product Image">
