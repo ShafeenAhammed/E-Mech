@@ -148,7 +148,7 @@ module.exports={
                 { $limit: itemsPerPage }
               ])
             
-            console.log("prodcs",data);
+
             // Calculate total pages for pagination controls
             const allProducts = await productCollection.find().count();
 
@@ -180,7 +180,7 @@ module.exports={
 
 
         if (Object.keys(req.query).length === 0) {
-            console.log("No filters selected. Redirecting to /all_products");
+
             return res.redirect('/all_products');
         }
 
