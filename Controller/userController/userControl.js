@@ -133,7 +133,7 @@ module.exports={
                             }
                         }
                       ])
-                    console.log(products);
+
                     res.render("userHomePage",{userDetails,category,products,bannerDetails,totalProducts});
                 }
                 

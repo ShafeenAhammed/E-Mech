@@ -6,16 +6,6 @@ module.exports={
     // product search
     search: async (req,res)=>{
         try {
-            // const userDetails= await usercollection.find({username:req.session.user});
-            // const searchResults= await productCollection.find({$or:[{product_name:{$regex:search,$options:'i'}},{product_id:{$regex:search,$options:'i'}}]})
-            // // console.log(searchResults);
-            // if(searchResults == ""){
-            //     // console.log("no data");
-            //     res.render('allproductsPage',{msg:"No Data!",data:searchResults,userDetails});
-            // }else{
-            //     res.render('allproductsPage',{userDetails,data:searchResults});
-
-            // }
             
             const itemsPerPage = 2; // Number of products per page
             const page = parseInt(req.query.page) || 1; // Current page number
@@ -63,11 +53,11 @@ module.exports={
 
             console.log("here",searchResults);
             if (searchResults == "") {
-                // console.log("no data");
+                
                 res.render('allproductsPage', { msg: "No Data!", data: searchResults, userDetails,categoryDetails,totalProducts,currentPage:page,totalPages: Math.ceil(searchResults.length / itemsPerPage), session:session });
             } else {
                 const searchResultsPaginated = searchResults.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-                // res.render('allproductsPage', { userDetails, data: searchResults ,categoryDetails,totalProducts});
+                
                 res.render('allproductsPage', {
                     msg: searchResultsPaginated.length === 0 ? "No Data!" : "",
                     data: searchResultsPaginated,
@@ -122,7 +112,7 @@ module.exports={
             // Pagination settings
             const itemsPerPage = 2; // Number of products per page
             const page = parseInt(req.query.page) || 1; // Current page number
-            // const data = await productCollection.find({enabled:true});
+            
             const data= await productCollection.aggregate([
                 {
                   $lookup: {
@@ -161,9 +151,9 @@ module.exports={
             console.log("prodcs",data);
             // Calculate total pages for pagination controls
             const allProducts = await productCollection.find().count();
-            console.log("All pr",allProducts);
+
             const totalPages = Math.ceil(allProducts / itemsPerPage);
-            console.log(totalPages);
+         
             res.render('allproductsPage',{userDetails,data,categoryDetails,totalProducts,currentPage: page,totalPages:totalPages});
         }
         catch(err){
@@ -184,28 +174,16 @@ module.exports={
             const page = parseInt(req.query.page) || 1; // Current page number
 
             // Retrieve the selected price ranges and categories from the request body
-            // const priceRanges = req.query.priceRanges || [];
-            // const categories = req.query.categories || [];
+
             const priceRanges = Array.isArray(req.query.priceRanges) ? req.query.priceRanges : [req.query.priceRanges];
             const categories = Array.isArray(req.query.categories) ? req.query.categories : [req.query.categories];
-            // console.log("len",priceRanges.length);
-            // if (priceRanges=== "" && categories ==="") {
-            //     console.log("No filters selected. Redirecting to /all_products");
-            //     return res.redirect('/all_products');
-            // }
 
-            
-            // const noFiltersSelected = priceRanges.length === 0 && categories.length === 0;
-            // console.log(noFiltersSelected);
 
         if (Object.keys(req.query).length === 0) {
             console.log("No filters selected. Redirecting to /all_products");
             return res.redirect('/all_products');
         }
 
-            // console.log("queryy",req.query);
-            // console.log("single price",priceRanges);
-            // console.log("cat",categories);
             
             const priceRangesArray = [];
         if (priceRanges.includes('under-1000')) {
@@ -229,7 +207,7 @@ module.exports={
         }
         let data
         if(!categories.length===""){
-            console.log("entered");
+            
             data= await productCollection.aggregate([
                 {
                   $lookup: {
@@ -264,8 +242,7 @@ module.exports={
                 }
               ])
         } else {
-            console.log("entered prices");
-            console.log("ranges",priceRanges);
+            
             data= await productCollection.aggregate([
                 {
                   $lookup: {
@@ -300,12 +277,8 @@ module.exports={
               ])
         }
             
-            
-           
-              console.log("datataa",data);
-              console.log("pagege",page);
               const filteredDataPaginated = data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-              console.log("filtered prods",filteredDataPaginated);
+              
               res.render('allproductsPage', {
                 userDetails,
                 data: filteredDataPaginated,
@@ -314,7 +287,7 @@ module.exports={
                 currentPage: page,
                 totalPages: Math.ceil(data.length / itemsPerPage)
             });
-            // res.render('allproductsPage',{userDetails,data,categoryDetails,totalProducts});
+            
         }
         catch (err) {
             console.log("Error in filtering", err);
