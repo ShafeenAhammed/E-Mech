@@ -1,4 +1,4 @@
-const userController = require('../Controller/userController');
+
 const usercollection = require('../Model/userDetails');
 const express = require("express");
 require("dotenv").config();
