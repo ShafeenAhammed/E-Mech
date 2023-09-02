@@ -45,7 +45,7 @@
                               </div>
                               <div class="col text-end">
                                   <a href="/ordersdetails?id=<%=orders[i].order_id%>" class="card-link">View Order Details</a>
-                                  <%if(orders[i].order_status=="Delivered" || orders[i].payment_method=="UPI" || orders[i].payment_method=="walletPayment"){%>
+                                  <%if(orders[i].order_status=="Delivered" || orders[i].payment_method=="onlinePayment" || orders[i].payment_method=="walletPayment"){%>
                                     <a href="/invoice?id=<%=orders[i].order_id%>" class="card-link">Invoice</a>
                                 <%}else{%>
                                     
