@@ -1,0 +1,151 @@
+<%- include('adminNavbar')%>
+    <section style="background-color: rgb(201, 209, 206);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card mt-5 mb-5 border-warning border-3">
+                        <div class="card-header bg-warning text-white text-center">
+                            <h4 class="mb-0 text-dark">Add product</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="/admin_panel/product_management/add_product" method="post" enctype="multipart/form-data" onsubmit="return validateAll()">
+                                <div class="mb-3">
+                                    <label for="productId" class="form-label" hidden>Product ID</label>
+                                    <input type="text" class="form-control" id="productId" name="product_id" placeholder="Enter product ID"
+                                        hidden >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Product Name</label>
+                                    <input type="text" class="form-control" id="productName" name="product_name"
+                                        placeholder="Enter product Name" onblur="validateName()">
+                                    <span id="vldname" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Product Price</label>
+                                    <input type="number" class="form-control" id="productPrice" name="product_price"
+                                        placeholder="Enter product Price" onblur="validatePrice()">
+                                    <span id="vldprice" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productDescription" class="form-label">Product Description</label>
+                                    <textarea class="form-control" id="productDescription" name="product_description" rows="3"
+                                        placeholder="Enter product Description" onblur="validateDesc()"></textarea>
+                                    <span id="vlddesc" style="color: red;"></span>
+                                </div>
+
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="productCategory">Product Category</label>
+                                    <!-- <div class="text-start"><b>Select the role</b></div> -->
+                                    <select class="form-select" aria-label="Default select example" name="product_category">
+                                        <% for(let i=0;i<categoryData.length;i++){%>
+                                            <option><%= categoryData[i].category_name %></option>
+                                        <%}%>
+                                    </select>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="productStock" class="form-label">Product Stock</label>
+                                    <input type="number" class="form-control" id="productStock" name="product_stock"
+                                        placeholder="Enter product Stock" onblur="validateStock()">
+                                    <span id="vldstock" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Product Image</label>
+                                    <input class="form-control" type="file" multiple id="formFile" name="product_image" onblur="validateFile()">
+                                    <span id="vldimg" style="color: red;"></span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-outline-warning btn-block  text-dark"><b>Add
+                                            Product</b></button>
+                                </div>
+                                <br>
+                                <% if(locals.msg){ %>
+                                    <div class="alert alert-danger text-center"><%= msg%></div>
+                                <%}%>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    
+
+    
+    </body>
+    <script>
+
+        function validateName(){
+            const user=document.getElementById("productName").value;
+            if(user===""){
+                document.getElementById("vldname").innerHTML="Enter category name";
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function validatePrice() {
+            const price = document.getElementById("productPrice").value;
+            if(/^\d+(\.\d{1,2})?$/.test(price)){
+                return true;
+            }else{
+                document.getElementById("vldprice").innerHTML="Enter valid price";
+                return false;
+            }
+        }
+
+        function validateDesc(){
+            const user=document.getElementById("productDescription").value;
+            if(user===""){
+                document.getElementById("vlddesc").innerHTML="Enter product description";
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function validateStock() {
+            const stock = document.getElementById("productStock").value;
+            if(/^[0-9]\d*$/.test(stock)){
+                return true;
+            }else{
+                document.getElementById("vldstock").innerHTML="Enter valid stock";
+                return false;
+            }
+        }
+
+        function validateFile(){
+            const user=document.getElementById("formFile").value;
+            if(user.length===0){
+                document.getElementById("vldimg").innerHTML="Upload image file";
+                return false;
+            }else{
+                return true;
+            }
+        }
+    
+       
+        
+    
+        function validateAll(){
+            if(validateName() && validatePrice() && validateDesc() && val && validateFile()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    
+    </script>
+    </html>

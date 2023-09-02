@@ -1,0 +1,128 @@
+<%- include('userNavBar')%>
+<div class="container mt-5">
+    <div class="row py-5">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Your Wallet</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="d-flex align-items-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                                </svg>
+                                <span class="m-1" style="padding-top: 5px;"><b>Balance:<br>Rs.<%= userDetails[0].walletbalance%></b></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="/wallet_history" class="btn btn-primary btn-sm">Wallet History</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row d-flex justify-content-center text-center py-5">
+                        <div class="col-md-8">
+                            <h6 style="text-align-last: left;">Top-up Balance</h6>
+                            <form class="wallet">
+                                <div class="mb-3">
+                                    <!-- <label for="topupAmount" class="form-label">Amount</label> -->
+                                    <input type="number" class="form-control" name="topUpAmount" id="topupAmount" placeholder="Enter amount">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Top-up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.wallet').submit(function(e){
+            e.preventDefault();
+
+            var walletAmt=$(this).serialize();
+            console.log(walletAmt);
+            $.ajax({
+                url:"/topup",
+                type:"POST",
+                data:walletAmt,
+                success:function(res){
+                    var options = {
+                        "key": "" + res.key_id + "",
+                        "amount": "" + res.amount + "",
+                        "currency": "INR",
+                        "image": "https://dummyimage.com/600x400/000/fff",
+                        // "handler": function (response) {
+                        //     alert("Payment Succeeded");
+                        //     // window.location.href = '/wallet'
+                        // },
+                        "handler": function (response) {
+                            $.ajax({
+                                url: "/verify-topup",
+                                type: "POST",
+                                data: { topUpAmount: res.topUpAmount },
+                                success: function (response) {
+                                    if (response.success) {
+                                        // alert("Payment Succeeded");
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Wallet Topup Success',
+                                            showConfirmButton: false, // show/hide the "OK" button
+                                            timer: 1500
+                                        });
+                                        // window.location.href = '/orders'; 
+                                        setTimeout(function () {
+                                            window.location.href = '/wallet';
+                                        }, 1500);
+
+                                    } else {
+                                        // alert("Payment failed or something went wrong!");
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Payment failed or something went wrong!',
+                                            showConfirmButton: false, // show/hide the "OK" button
+                                            timer: 10500
+                                        });
+                                    }
+                                }
+                            });
+                        },
+                        "prefill": {
+                            "contact": "" + res.contact + "",
+                            "name": "" + res.name + "",
+                            "email": "" + res.email + ""
+                        },
+                        "theme": {
+                            "color": "#2300a3"
+                        }
+                    };
+                    var razorpayObject = new Razorpay(options);
+                    razorpayObject.on('payment.failed', function (response) {
+                        // alert("Payment Failed");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Payment failed!',
+                            showConfirmButton: true, // show/hide the "OK" button
+                            timer: 10500
+                        });
+                    });
+                    razorpayObject.open();
+                    // console.log(res.data);
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>

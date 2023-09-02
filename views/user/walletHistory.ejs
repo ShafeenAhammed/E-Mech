@@ -1,0 +1,38 @@
+<%- include('userNavBar')%>
+<div class="container mt-5">
+    <h1 class="mb-4">Wallet History</h1>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Process</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through wallet history transactions -->
+                        <% for (const history of userDetails[0].wallethistory) { %>
+                            <tr>
+                                <td><%= history.process %></td>
+                                <td class="<%= (history.process === 'TopUp' || history.process === 'Refund') ? 'text-success' : 'text-danger' %>">
+                                    <span><%= (history.process === 'TopUp' || history.process === 'Refund') ? '+' : '-'%> <strong><%= history.amount %></strong>
+                                </td>
+                                <td><%= history.date.toLocaleString() %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

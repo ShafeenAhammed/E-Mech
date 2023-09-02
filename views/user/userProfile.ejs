@@ -1,0 +1,58 @@
+<%- include('userNavBar')%>
+<div class="container-fluid">
+    <div class="row ">
+        <!-- Side Navigation Bar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar navbar navbar-expand-md">
+            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="sidebarNav">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/userprofile">
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/useraddressmanagement">
+                                Addresses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/orderhistory">
+                                Order History
+                            </a>
+                        </li>
+                    </ul>
+            </div>
+            </div>
+            
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <!-- User Profile Section -->
+            <div class="profile-section">
+                <h2>User Profile</h2>
+                <div class="profile-info">
+                    <p><strong>Name:</strong> <%=userDetails[0].username%></p>
+                    <p><strong>Email:</strong> <%=userDetails[0].useremail%></p>
+                    <p><strong>Mobile Number:</strong> <%=userDetails[0].userContact%></p>
+                    <p><strong>Number of Orders:</strong> <%= orders%> </p>
+                    <p><strong>Wallet Balance:</strong> Rs.<%=userDetails[0].walletbalance%></p>
+                </div>
+            </div>
+        
+            <!-- Other content goes here -->
+        </main>
+        
+    </div>
+</div>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

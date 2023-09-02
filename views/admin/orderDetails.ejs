@@ -1,0 +1,103 @@
+<%- include('adminNavbar')%>
+<section class="h-100">
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center my-4">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header py-3">
+                        <h5 class=""><%=order.order_id%></h5>
+                    </div>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p>Order Placed On:</p>
+                                <%
+                                const dateObj = new Date(order.purchase_date);                        
+                                const purchaseDate = dateObj.toLocaleString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    second: 'numeric'
+                                });
+                                %>
+                                <p><%= purchaseDate %></p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <p>Order Delivery Date:</p>
+                                <%
+                                const delDateObj = new Date(order.delivery_date);                        
+                                const deliveryDate = delDateObj.toLocaleString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    second: 'numeric'
+                                });
+                                %>
+                                <p><%= deliveryDate %></p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <p>Price:</p>
+                                <p><span>&#8377;</span><%= order.total_amount %></p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>Shipping Address:</p>
+                                <address>
+                                <%= order.delivery_address.name%><br>
+                                <%= order.delivery_address.houseNumber%>,<%= order.delivery_address.area%><br>
+                                <%= order.delivery_address.city%>,<%= order.delivery_address.state%>,<%= order.delivery_address.pincode%>,<br>
+                                Phone: <%= order.delivery_address.mobile%>,<br>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <% order.order_items.forEach((item) => { %>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                    <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                        <img src="/static/uploads/<%= item.product_image %>"
+                                        class="w-75"/>
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                    <h4><strong><%= item.product_name %></strong></h4>
+                                    <p class="card-text">Quantity: <%= item.product_quantity %> </p>
+                                    <p class="act-price">
+                                        <span>&#8377;</span><%=item.product_price %>
+                                    </p>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <div class="card-footer">
+                        <form action="/admin_panel/updateorder-details" class="d-flex align-items-center" method="post">
+                            <input type="text" name="orderId" id="" value="<%=order.order_id%>" hidden>
+                            <label for="status" class="mr-2 mb-0">Status:</label>
+                            <select name="status" id="status" class="form-control m-2">
+                                <option value="Placed"><%=order.order_status%></option>
+                                <option value="Placed">Placed</option>
+                                <option value="In transit">In transit</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

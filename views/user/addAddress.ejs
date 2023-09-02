@@ -1,0 +1,103 @@
+<%- include('userNavBar')%>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Side Navigation Bar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar navbar navbar-expand-md">
+            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="sidebarNav">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/userprofile">
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/useraddressmanagement">
+                                Addresses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/orderhistory">
+                                Order History
+                            </a>
+                        </li>
+                    </ul>
+            </div>
+            </div>
+            
+        </nav>
+        
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="container">
+                <h1 class="mt-4 mb-4">Add New Address</h1>
+                <form action="/addaddress" method="post" id="addressForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" style="width: 50%;">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="houseNumber" class="form-label">House Number</label>
+                            <input type="text" class="form-control" id="houseNumber" name="houseNumber">
+                        </div>
+                        <div class="col">
+                            <label for="area" class="form-label">Area</label>
+                            <input type="text" class="form-control" id="area" name="area">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" name="city">
+                        </div>
+                        <div class="col">
+                            <label for="pincode" class="form-label">Pincode</label>
+                            <input type="text" class="form-control" id="pincode" name="pincode">
+                        </div>
+                        <div class="col">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" class="form-control" id="state" name="state">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="contactNumber" class="form-label">Contact Number</label>
+                            <input type="text" class="form-control" id="contactNumber" name="contactNumber">
+                        </div>
+                    </div>
+                    <h3><span id="vldentry" style="color: red;"></span></h3>
+                    <div class="d-flex justify-content-center"><button type="submit" class="btn btn-success btn-lg">Submit</button></div>
+                    
+                </form>
+            </div>       
+        </main>
+        <footer class="bg-dark text-white text-center py-3">
+            <div class="container">
+                <p>&copy; 2023 Your Company. All rights reserved.</p>
+            </div>
+        </footer>
+        <script>
+            document.getElementById("addressForm").addEventListener("submit", function(event) {
+                const name = document.getElementById("name").value;
+                const houseNumber = document.getElementById("houseNumber").value;
+                const area = document.getElementById("area").value;
+                const city = document.getElementById("city").value;
+                const pincode = document.getElementById("pincode").value;
+                const state = document.getElementById("state").value;
+                const contactNumber = document.getElementById("contactNumber").value;
+    
+                if (!name || !houseNumber || !area || !city || !pincode || !state || !contactNumber) {
+                    event.preventDefault();
+                    document.getElementById("vldentry").innerHTML="Fill all fields";
+                }
+            });
+        </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<%- include('adminNavbar')%>
+
+    <!-- Your website content goes here -->
+    <br>
+    <h2 class="mx-2">Order Details</h2>
+    <br>
+    <div class="d-flex">
+        <form class="form-inline mx-2 my-lg-0 d-flex"  action="/searchorder" method="GET">
+            <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-warning text-dark mx-2 my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    
+    <br>
+    <% if(locals.msg){ %>
+        <div class="alert alert-danger text-center"><%= msg%></div>
+    <%}%>
+    <table class="table table-bordered table-hover mx-2">
+        <thead class="thead-dark">
+          <tr>
+            
+            <th scope="col">Order Id</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Order Status</th>
+            <th scope="col">Payment Method</th>
+            <th scope="col">Order Date</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for(let i=0;i<data.length;i++){%>
+                <tr>
+                    <td>
+                        <%= data[i].order_id %>
+                    </td>
+                    <td>
+                        <%= data[i].customer_name %>
+                    </td>
+                    <td>
+                        <%= data[i].order_status %>
+                    </td>   
+                    <td>
+                        <%= data[i].payment_method %>
+                    </td>
+                   
+                    <td>
+                        <%
+                        const dateObj = new Date(data[i].purchase_date);                        
+                        const purchaseDate = dateObj.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        %>
+                        <%= purchaseDate %>
+                    </td>
+                    <td>
+                        <a href="/admin_panel/order-details?id=<%= data[i].order_id %>" class="btn btn-outline-primary" style="width: 5.5rem;">Details</a>
+                    </td>
+                </tr>
+                <%}%>
+        
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center mt-4 align-items-centre">
+        <% if (currentPage > 1) { %>
+          <a class="btn btn-secondary mx-2" href="?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+        <% } %>
+        <a class="btn btn-warning mx-2" href=""><%= currentPage%></a>
+        <% if (currentPage < totalPages) { %>
+          <a class="btn btn-secondary mx-2" href="?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+        <% } %>
+    </div>
+    <br>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+   
+</body>
+</html>

@@ -1,0 +1,189 @@
+<%- include('adminNavbar')%>
+<style>
+    .canvas-small {
+    max-width: 500px;
+    max-height: 500px; 
+    width: 100%; 
+    height: 100%; 
+}
+
+</style>
+    <br>
+    <br>
+    <!-- Your website content goes here -->
+    <div class="row text-center">
+        <h2>Admin Dashboard</h2>
+    </div>
+    <br>
+    <br>
+    <div class="container mt-4 bg-light">  
+        <div class="row py-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Orders</h5>
+                        <p class="card-text"><%= ordercount%></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Revenue</h5>
+                        <p class="card-text">Rs.<%= totalRevenue%></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Users</h5>
+                        <p class="card-text"><%= users%></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Total Products</h5>
+                        <p class="card-text"><%= productcount%></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="container mt-5">
+                <canvas id="barChart" class="canvas-small" style="width: 5rem;height: 5rem;"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="container mt-5">
+                <canvas id="pieChart" class="canvas-small" style="width: 5rem;height: 5rem;"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="container mt-5">
+                <canvas id="doughChart" class="canvas-small" style="width: 5rem;height: 5rem;"></canvas>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        $(document).ready(function(){
+        $.ajax({
+        url: '/getChartData',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            const ctx = document.getElementById('barChart');
+            console.log("hiiiiii",data.orderCounts);
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '# of Orders',
+                        data: data.orderCounts,
+                        backgroundColor: ['rgba(0, 123, 255)', 'rgba(255, 99, 132)', 'rgba(75, 192, 192)'],
+                        // borderWidth: 1
+                        
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Order Status'
+                        }
+                    }
+                }
+            });
+            const piectx = document.getElementById('pieChart');
+            new Chart(piectx, {
+                type: 'pie', // Change the chart type to 'pie'
+                data: {
+                    labels: data.methodLabels,
+                    datasets: [{
+                        label: '# of Orders',
+                        data: data.methodCounts,
+                        backgroundColor: ['rgba(0, 123, 255)', 'rgba(255, 99, 132)', 'rgba(75, 192, 192)'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Payment Methods'
+                        }
+                    }
+                }
+            });
+            const doughctx = document.getElementById('doughChart');
+            new Chart(doughctx, {
+                type: 'doughnut', 
+                data: {
+                    labels: data.categoryLabels,
+                    datasets: [{
+                        label: '# of Category',
+                        data: data.categoryCounts,
+                        backgroundColor: ['rgba(0, 123, 255)', 'rgba(255, 99, 132)', 'rgba(75, 192, 192)'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Category Products'
+                        }
+                    }
+                }
+        });
+
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+
+        })
+        
+    </script>
+
+    </body>
+
+    </html>

@@ -1,0 +1,81 @@
+<%- include('adminNavbar')%>
+
+    <!-- Your website content goes here -->
+    <br>
+    <h2 class="mx-2">User Details</h2>
+    <br>
+    <div class="d-flex">
+        <form class="form-inline mx-2 my-lg-0 d-flex"  action="/searchuser" method="GET">
+            <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-warning text-dark mx-2 my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    
+    <br>
+    <% if(locals.msg){ %>
+        <div class="alert alert-danger text-center"><%= msg%></div>
+    <%}%>
+    <table class="table table-bordered table-hover mx-2">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Sl.No.</th>
+            <th scope="col">User name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Contact</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for(let i=0;i<data.length;i++){%>
+                <tr>
+                    <th scope="row">
+                        <%= i+1 %>
+                    </th>
+                    <td>
+                        <%= data[i].username %>
+                    </td>
+                    <td>
+                        <%= data[i].useremail %>
+                    </td>   
+                    <td>
+                        <%= data[i].userContact %>
+                    </td>
+                    
+                    <td>
+                        <% if(data[i].isBlocked == false){ %>
+      
+                        <a href="/block?username=<%=data[i].username%>" class="btn btn-outline-danger" style="width: 5.5rem;">Block</a>
+                        <% } else { %>
+                         <a href="/block?username=<%=data[i].username%>" class="btn btn-outline-success" style="width: 5.5rem;">Unblock</a>
+                         <% } %>
+                    </td>
+                    <td>
+                        <a href="/admin_panel/user-details?username=<%=data[i].username%>" class="btn btn-outline-primary" style="width: 5.5rem;">Details</a>
+                    </td>
+                </tr>
+                <%}%>
+        
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center mt-4 align-items-centre">
+        <% if (currentPage > 1) { %>
+          <a class="btn btn-secondary mx-2" href="?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+        <% } %>
+        <a class="btn btn-warning mx-2" href=""><%= currentPage%></a>
+        <% if (currentPage < totalPages) { %>
+          <a class="btn btn-secondary mx-2" href="?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+        <% } %>
+    </div>
+    <br>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+
+</body>
+</html>

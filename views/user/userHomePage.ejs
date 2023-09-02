@@ -1,0 +1,108 @@
+<%- include('userNavBar')%>
+    <!-- Your website content goes here -->
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <!-- Add more carousel indicators here -->
+        </div>
+        <div class="carousel-inner">
+            <%for(let i=0;i<bannerDetails.length;i++){%>
+                <div class="carousel-item active">
+                    <img src="/static/uploads/<%= bannerDetails[i].banner_image%>" class="d-block w-100" alt="Slide 1">
+                </div>
+            <%}%>
+            <!-- Add more carousel items here -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center pb-4">Categories</h2>
+            <div class="row">
+                <% for(let i=0;i<category.length;i++){%>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 ">
+                            <a href="/category_page?name=<%= category[i].category_name%>">
+                                <img src="/static/uploads/<%= category[i].category_image %>" class="card-img-top" alt="Category Image">
+                            </a>
+                            <div class="card-body text-center bg-light">
+                                <h5 class="card-title"><%= category[i].category_name %></h5>
+                                <p class="card-text"><%= category[i].category_description %></p>
+                                <a href="/category_page?name=<%= category[i].category_name%>" class="btn btn-primary">View Products</a>
+                            </div>
+                        </div>
+                    </div><%}%>
+                
+                <!-- Add more category cards here -->
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center pb-4">Featured Products</h2>
+            <div class="row">
+                <% for (let i = 0; i < products.length; i++) { %>
+                    <% let existCart = false; %>
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <a href="/product_page?id=<%= products[i].product_id %>">
+                                <img src="/static/uploads/<%= products[i].product_image[0] %>" class="card-img-top" alt="Product Image">
+                            </a>
+                            <div class="card-body text-center bg-light">
+                                <h5 class="card-title"><%= products[i].product_name %></h5>
+                                <% if (products[i].product_stock > 0) { %>
+                                    <h4 style="color: green;">In Stock</h4>
+                                <% } else { %>
+                                    <h4 style="color: red;">Out of Stock</h4>
+                                <% } %>
+                                <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
+                                <% for (let j = 0; j < userDetails[0].cart.length; j++) { %>
+                                    <% if (products[i].product_id === userDetails[0].cart[j].product_id) { %>
+                                        <% existCart = true; break; %>
+                                    <% } %>
+                                <% } %>
+                                <% if (existCart) { %>
+                                    <button type="button" class="btn btn-lg btn-primary">
+                                        <a href="/cart?userData=<%= userDetails[0].username %>"
+                                            style="text-decoration: none; color: black;">Go To Cart</a>
+                                    </button>
+                                <% } else { %>
+                                    <button type="button" class="btn btn-lg btn-primary">
+                                        <a href="/addtocart?prodData=<%= products[i].product_id %>"
+                                            style="text-decoration: none; color: black;">Add To Cart</a>
+                                    </button>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+                
+                <!-- Add more featured product cards here -->
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
+
+

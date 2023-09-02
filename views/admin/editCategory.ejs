@@ -1,0 +1,110 @@
+<%- include('adminNavbar') %>
+
+<section style="background-color: rgb(201, 209, 206);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card mt-5 mb-5 border-warning border-3">
+                    <div class="card-header bg-warning text-white text-center">
+                        <h1 class="mb-0 text-dark">Category Product</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="container my-5">
+                            <form action="/admin_panel/category_management/edit_category" method="post" enctype="multipart/form-data">
+                                <!-- Product Id -->
+                                <div class="mb-3">
+                                    
+                                    <input type="text" class="form-control" id="productId" name="category_id" hidden value="<%= data.category_id %>"  required>
+                                </div>
+                                <!-- Product Name -->
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Category Name</label>
+                                    <input type="text" class="form-control" id="productName" name="category_name" value="<%= data.category_name %>" required>
+                                </div>
+                    
+                                
+                    
+                                <!-- Product Description -->
+                                <div class="mb-3">
+                                    <label for="productDescription" class="form-label">Category Description</label>
+                                    <textarea class="form-control" name="category_description" id="category_description" value="<%= data.category_description %>" rows="3" required><%= data.category_description %></textarea>
+                                </div>
+                    
+                                <!-- Existing Product Images Container -->
+                                
+                                <div class="mb-3">
+                                    <label for="existingImages" class="form-label">Existing Category Image</label>
+                                    <div class="row" id="existingImages">
+                                        <!-- Display existing images here -->
+                                         
+                                            <div class="d-flex justify-content-between col-3 position-relative">
+                                                <% if(data.category_image!=null){ %>
+                                                    <img src="/static/uploads/<%= data.category_image %>" class="img-thumbnail" alt="Product Image">
+                                                <!-- Delete button -->
+                                                <div class="position-absolute top-0 end-0 m-1">
+                                                    
+                                                    <a href="/admin_panel/category_management/edit_category/deleteimage?dImg=<%= data.category_image %>&dId=<%= data.category_id%>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this image?')"><b>&times;</b></a>
+                                                </div>
+                                                    
+                                                <%}
+                                                else{%>
+                                                    <div><b>No images</b></div>
+                                                <%}
+                                                %>
+                                                
+                                                
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                    
+                                <!-- Upload New Product Images -->
+                                <div class="mb-3">
+                                    <label for="newImages" class="form-label">Upload New Category Image</label>
+                                    <input type="file" class="form-control" id="newImages" name="category_image"   >
+                                    <div id="newImagesPreview" class="img-thumbnail">
+                                        <!-- Preview of new images will be displayed here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-lg btn-outline-warning btn-block  text-dark"><b>Edit
+                                        Category</b></button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+ <!-- Footer -->
+ <footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+<!-- Bootstrap JS (optional, for additional functionality) -->
+
+
+<!-- JavaScript to handle new image preview -->
+<script>
+    const newImagesInput = document.getElementById('newImages');
+    const newImagesPreview = document.getElementById('newImagesPreview');
+
+    newImagesInput.addEventListener('change', function () {
+        newImagesPreview.innerHTML = '';
+        for (const file of newImagesInput.files) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.classList.add('img-thumbnail', 'm-1');
+            newImagesPreview.appendChild(img);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<%- include('adminNavbar')%>
+<br>
+<h2 class="mx-2">Product Details</h2>
+<br>
+<div class="d-flex">
+    <form class="form-inline mx-2 my-lg-0 d-flex"  action="/searchproduct" method="GET">
+        <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" name="search">
+        <button class="btn btn-outline-warning mx-2 my-2 my-sm-0 text-dark" type="submit">Search</button>
+    </form>
+</div>
+<br>
+<% if(locals.msg){ %>
+    <div class="alert alert-danger text-center"><%= msg%></div>
+<%}%>
+<table class="table table-bordered table-hover mx-2">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Sl.No.</th>
+        <th scope="col">Product ID</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Product Price</th>
+        <th scope="col">Product Category</th>
+        <th scope="col">Product Stock</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+        <% for(let i=0;i<data.length;i++){%> <tr>
+            <th scope="row"><%= i+1 %></th>
+            <td><%= data[i].product_id %></td>
+            <td><%= data[i].product_name %></td>
+            <td><%= data[i].product_price %></td>
+            <td><%= data[i].product_category %></td>
+            <td><%= data[i].product_stock %></td>
+            <td colspan="2">
+                <a href="/admin_panel/product_management/edit_product?edit=<%=data[i].product_id%>" class="btn btn-outline-success" style="width: 5.5rem;">Edit</a>
+                <% if(data[i].enabled === true && data[i].category_enabled === true){ %>
+                    <a href="/enableproduct?delete=<%=data[i].product_id%>" class="btn btn-outline-success" style="width: 5.5rem;">Enabled</a>
+                    <% } else { %>
+                    <a href="/enableproduct?delete=<%=data[i].product_id%>" class="btn btn-outline-danger" style="width: 5.5rem;">Disabled</a>
+                <% } %>    
+            </td> 
+            </tr>
+        <%}%>
+
+    </tbody>
+</table>
+<div class="d-flex justify-content-center mt-4 align-items-centre">
+    <% if (currentPage > 1) { %>
+      <a class="btn btn-secondary mx-2" href="?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+    <% } %>
+    <a class="btn btn-warning mx-2" href=""><%= currentPage%></a>
+    <% if (currentPage < totalPages) { %>
+      <a class="btn btn-secondary mx-2" href="?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+    <% } %>
+</div>
+<br>    
+<div class="container text-start">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <button class="btn btn-outline-warning btn-lg px-5 rounded-pill"><a class="text-decoration-none text-dark" href="/admin_panel/product_management/add_product">Add Product</a></button>
+        </div>
+    </div>
+</div>
+<br>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

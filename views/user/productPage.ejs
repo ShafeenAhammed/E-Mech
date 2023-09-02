@@ -1,0 +1,166 @@
+
+<% if(locals.session===true){ %>
+    <%- include('userNavBar')%>
+<%}else if(locals.session===false){%>
+    <%- include('noUserNavBar')%>
+<%}
+%>
+<style>
+    body {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .product-images-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start; /* Align both containers at the top */
+    }
+
+    .product-image-big {
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+
+    .product-image-small {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .non-selected-images-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align images to the top */
+        margin-left: 20px; /* Add some margin to separate the containers */
+    }
+
+    .non-selected-images-container .product-image-small {
+        margin-right: 0;
+    }
+
+    .main-content {
+        flex: 1;
+    }
+
+</style>
+<div class="container mt-4 main-content" style="padding-top: 30px;">
+    <div class="card py-5" style="background-color: #f4f4f4;">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Individual Product Images -->
+                <div class="product-images-container mb-3">
+                    <img src="/static/uploads/<%= prodDetails[0].product_image[0]%>" id="main-image" class="img-thumbnail product-image-big" alt="Product Image 1">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <!-- Non-selected images -->
+                <div class="non-selected-images-container">
+                    <img src="/static/uploads/<%= prodDetails[0].product_image[1]%>" class="img-thumbnail product-image-small" alt="Product Image 2" onclick="selectImage(this)">
+                    <img src="/static/uploads/<%= prodDetails[0].product_image[2]%>" class="img-thumbnail product-image-small" alt="Product Image 3" onclick="selectImage(this)">
+                    <img src="/static/uploads/<%= prodDetails[0].product_image[3]%>" class="img-thumbnail product-image-small" alt="Product Image 4" onclick="selectImage(this)">
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-top: 30px; padding-left: 30px; padding-bottom: 30px;">
+                <!-- Product Details -->
+                <h2><%= prodDetails[0].product_name%></h2>
+                <br>
+                <br>
+                <p class="lead text-dark"><b>Product Description: </b><%= prodDetails[0].product_description %></p>
+                <h4>Rs.<%= prodDetails[0].product_price %></h4>
+                <hr>
+                <% if (prodDetails[0].product_stock > 0) { %>
+                    <h3 style="color: green;">In Stock</h3>
+                <% }
+                else{%>
+                    <h3 style="color: red;">Out of Stock</h3>
+                <%}
+                %>
+                <hr>
+                <% if(locals.session===true){ %>
+                    <% let existCart=false; 
+                    for (let i=0; i < userDetails[0].cart.length; i++) { 
+                        if(userDetails[0].cart[i].product_id===prodDetails[0].product_id) { 
+                            existCart=true; break; 
+                        } } 
+                        if (existCart) { %>
+                        <button type="button" class="btn btn-lg btn-primary">
+                        <a href="/cart?userData=<%= userDetails[0].username %>"
+                            style="text-decoration: none; color: black;">Go To Cart</a>
+                        </button>
+                        <% } else { %>
+                        <button type="button" class="btn btn-lg btn-primary">
+                            <a href="/addtocart?prodData=<%= prodDetails[0].product_id %>"
+                                style="text-decoration: none; color: black;">Add To Cart</a>
+                        </button>
+                        <% } 
+                %>
+
+                <% let exist=false; 
+                    for (let i=0; i < userDetails[0].wishlist.length; i++) { 
+                        if(userDetails[0].wishlist[i].product_id===prodDetails[0].product_id) { 
+                            exist=true; break; 
+                        } } 
+                        if (exist) { %>
+                        <button type="button" class="btn btn-lg btn-secondary">
+                        <a href="/wishlist?userData=<%= userDetails[0].username %>"
+                            style="text-decoration: none; color: black;">View Wishlist</a>
+                        </button>
+                        <% } else { %>
+                        <button type="button" class="btn btn-lg btn-secondary">
+                            <a href="/addtowishlist?prodData=<%= prodDetails[0].product_id %>&userData=<%= userDetails[0].username %>"
+                                style="text-decoration: none; color: black;">Add To Wishlist</a>
+                        </button>
+                        <% } 
+                %>
+                <%}else if(locals.session===false){%>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                    <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+                <%}
+                %>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    function selectImage(imageElement) {
+        const selectedImage = document.getElementsByClassName('product-image-big')[0];
+        const nonSelectedContainer = document.querySelector('.non-selected-images-container');
+
+        // Clone the currently selected image and add it to the non-selected container
+        const clonedSelectedImage = selectedImage.cloneNode(true);
+        clonedSelectedImage.classList.remove('product-image-big');
+        clonedSelectedImage.classList.add('product-image-small');
+        clonedSelectedImage.onclick = function() { selectImage(this); };
+        nonSelectedContainer.appendChild(clonedSelectedImage);
+
+        // Set the clicked image as the new selected image
+        selectedImage.src = imageElement.src;
+        selectedImage.alt = imageElement.alt;
+        imageElement.remove();
+
+        // Move the currently selected image to the top of the non-selected container
+        const nonSelectedImages = nonSelectedContainer.getElementsByClassName('product-image-small');
+        nonSelectedContainer.prepend(clonedSelectedImage);
+
+        // Reset the onclick event for the non-selected images
+        for (let i = 0; i < nonSelectedImages.length; i++) {
+            nonSelectedImages[i].onclick = function() { selectImage(this); };
+        }
+    }
+</script>
+</body>
+</html>

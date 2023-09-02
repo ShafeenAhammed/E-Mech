@@ -1,0 +1,83 @@
+<%- include('userNavBar')%>
+<div class="container mt-5">
+    <h3>E-Mech Invoice</h3>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Sold By</h2>
+        <address>
+          E-Mech<br>
+          123 Main Street<br>
+          TVM, Kerala, 666312<br>
+          Phone: 456-7890<br>
+          Email: emech@gamil.com
+        </address>
+      </div>
+      <div class="col-md-6">
+        <h2>Shipping Address</h2>
+        <address>
+          <%= order.delivery_address.name%><br>
+          <%= order.delivery_address.houseNumber%>,<%= order.delivery_address.area%><br>
+          <%= order.delivery_address.city%>,<%= order.delivery_address.state%>,<%= order.delivery_address.pincode%>,<br>
+          Phone: <%= order.delivery_address.mobile%>,<br>
+        </address>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <p><strong>Order ID:</strong> <%= order.order_id%>,</p>
+        <%
+        const dateObj = new Date(order.purchase_date);
+        const purchaseDate = dateObj.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        %>
+        <p><strong>Order Date:</strong> <%= purchaseDate%>,</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Invoice Date:</strong> <%= purchaseDate%></p>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%for(let i=0;i<order.order_items.length;i++){%>
+                <tr>
+                    <td><%= order.order_items[i].product_name%></td>
+                    <td><%= order.order_items[i].product_quantity%></td>
+                    <td><%= order.order_items[i].product_price%></td>
+                    <td>Rs<%= order.order_items[i].product_quantity*order.order_items[i].product_price%> </td>
+                  </tr>
+            <%}%>
+            <!-- Add more rows for additional products -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="3" class="text-end">Total</th>
+              <th>Rs <%= order.total_amount%></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center"><a class="btn btn-lg btn-primary" href="/invoicepdf?id=<%=order.order_id%>" role="button">Download PDF</a></div>
+  <footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

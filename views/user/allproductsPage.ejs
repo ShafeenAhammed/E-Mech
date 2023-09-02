@@ -1,0 +1,145 @@
+<%- include('userNavBar')%>
+<section class="py-5">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Side Filter Bar -->
+            <div class="col-md-2" style=" padding-left: 30px;padding-top: 20px; background-color: aliceblue;">
+                <form id="filterForm" action="/filtered_products" method="get">
+                    <div class="mb-4">
+                        <h5>Price Range:</h5>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="under-1000" id="under1000" name="priceRanges">
+                            <label class="form-check-label" for="under1000">
+                                Under 1000
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1000-to-5000" id="1000to5000" name="priceRanges">
+                            <label class="form-check-label" for="1000to5000">
+                                1000 to 5000
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="5000-to-10000" id="5000to10000" name="priceRanges">
+                            <label class="form-check-label" for="5000to10000">
+                                5000 to 10000
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="10000-to-15000" id="10000to15000" name="priceRanges">
+                            <label class="form-check-label" for="10000to15000">
+                                10000 to 15000
+                            </label>
+                        </div>
+                        
+                    </div>
+                    <div class="mb-4">
+                        <h5>Category:</h5>
+                        <% 
+                        for(let i=0;i<categoryDetails.length;i++){%>
+                        <div class="form-check">
+                            
+                                <input class="form-check-input" type="checkbox" value="<%= categoryDetails[i].category_name%>" id="category<%= i+1 %>" name="categories">
+                                <label class="form-check-label" for="category2">
+                                    <%= categoryDetails[i].category_name%>
+                                </label>
+                                
+                            
+                            
+                        </div><%}
+                        %>
+                       
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Product Listing Section -->
+            <div class="col-md-9">
+                <h2 class="text-center pb-4" >All Products</h2>
+                <% if(locals.msg){%>
+                    <div class="alert alert-danger text-center"><%= msg%></div>
+                <%}%>
+                <div class="row">
+                    <% for(let i=0;i<data.length;i++){%>
+                        <% let existCart = false; %>
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100 ">
+                                <a href="/product_page?id=<%= data[i].product_id%>">
+                                    <img src="/static/uploads/<%= data[i].product_image[0]%>" class="card-img-top" alt="Product Image">
+                                </a>
+                                <div class="card-body text-center bg-light">
+                                    <h5 class="card-title"><%=data[i].product_name%></h5>
+                                    <% if(data[i].product_stock>0){%>
+                                        <h4 style="color: green;">In Stock</h4>
+                                    <%} else {%>
+                                        <h4 style="color: red;">Out of Stock</h4>
+                                    <%}%>
+                                    <% for (let j = 0; j < userDetails[0].cart.length; j++) { %>
+                                        <% if (data[i].product_id === userDetails[0].cart[j].product_id) { %>
+                                            <% existCart = true; break; %>
+                                        <% } %>
+                                    <% } %>
+                                    <% if (existCart) { %>
+                                        <button type="button" class="btn btn-lg btn-primary">
+                                            <a href="/cart?userData=<%= userDetails[0].username %>"
+                                                style="text-decoration: none; color: black;">Go To Cart</a>
+                                        </button>
+                                    <% } else { %>
+                                        <button type="button" class="btn btn-lg btn-primary">
+                                            <a href="/addtocart?prodData=<%= data[i].product_id %>"
+                                                style="text-decoration: none; color: black;">Add To Cart</a>
+                                        </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<div class="d-flex justify-content-center mt-4 align-items-centre">
+    <% if (currentPage > 1) { %>
+      <a class="btn btn-secondary mx-2" href="?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+    <% } %>
+    <a class="btn btn-primary mx-2" href="?page=<%= currentPage %>"><%= currentPage%></a>
+    <% if (currentPage < totalPages) { %>
+      <a class="btn btn-secondary mx-2" href="?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+    <% } %>
+</div>
+
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    // Add event listener to the checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            document.getElementById('filterForm').submit();
+        });
+        // Retrieve checkbox state from local storage
+        const checkboxState = localStorage.getItem(checkbox.id);
+        if (checkboxState) {
+            checkbox.checked = checkboxState === 'true';
+        }
+    });
+    // Save checkbox state to local storage on change
+    const filterForm = document.getElementById('filterForm');
+    filterForm.addEventListener('change', () => {
+        checkboxes.forEach(checkbox => {
+            localStorage.setItem(checkbox.id, checkbox.checked);
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

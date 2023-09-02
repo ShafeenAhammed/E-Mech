@@ -1,0 +1,104 @@
+<%- include('adminNavbar')%>
+    <section style="background-color: rgb(201, 209, 206);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card mt-5 mb-5 border-warning border-3">
+                        <div class="card-header bg-warning text-white text-center">
+                            <h4 class="mb-0 text-dark">Add Category</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="/admin_panel/category_management/add_category" method="post" enctype="multipart/form-data" onsubmit="return validateAll()">
+                                <div class="mb-3">
+                                    <label for="categoryId" class="form-label" hidden>Category ID</label>
+                                    <input type="text" class="form-control" id="categoryId" name="category_id" placeholder="Enter Category ID"
+                                        hidden >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Category Name</label>
+                                    <input type="text" class="form-control" id="categoryName" name="category_name"
+                                        placeholder="Enter Category Name" onblur="validateName()" >
+                                    <span id="vldname" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="categoryDescription" class="form-label">Category Description</label>
+                                    <textarea class="form-control" id="categoryDescription" name="category_description" rows="3"
+                                        placeholder="Enter Category Description" onblur="validateDesc()" ></textarea>
+                                    <span id="vlddesc" style="color: red;"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="categoryImage" class="form-label">Category Image</label>
+                                    <input class="form-control" type="file" id="formFile" name="category_image" onblur="validateFile()">
+                                    <span id="vldimg" style="color: red;"></span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-outline-warning btn-block  text-dark"><b>Add
+                                            Category</b></button>
+                                </div>
+                                <br>
+                                <% if(locals.msg){ %>
+                                    <div class="alert alert-danger text-center"><%= msg%></div>
+                                <%}%>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+   
+    </body>
+    <script>
+
+        function validateName(){
+            const user=document.getElementById("categoryName").value;
+            if(user===""){
+                document.getElementById("vldname").innerHTML="Enter category name";
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function validateDesc(){
+            const user=document.getElementById("categoryDescription").value;
+            if(user===""){
+                document.getElementById("vlddesc").innerHTML="Enter category description";
+                return false;
+            }else{
+                return true;
+            }
+        }
+        function validateFile(){
+            const user=document.getElementById("formFile").value;
+            if(user===""){
+                document.getElementById("vldimg").innerHTML="Upload image file";
+                return false;
+            }else{
+                return true;
+            }
+        }
+    
+       
+        
+    
+        function validateAll(){
+            if(validateName() && validateDesc() && validateFile()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    
+    </script>
+    </html>

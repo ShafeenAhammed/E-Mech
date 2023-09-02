@@ -1,0 +1,59 @@
+<%- include('userNavBar')%>
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center pb-4" style="text-decoration: underline;">Products</h2>
+            <% if(locals.msg){ %>
+                <div class="alert alert-danger text-center"><%= msg%></div>
+            <%}
+            else{%>
+                <div class="row">
+                    <% for(let i=0;i<data.length;i++){%>
+                        <% let existCart = false; %>
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100 ">
+                                <a href="/product_page?id=<%= data[i].product_id%>">
+                                    <img src="/static/uploads/<%= data[i].product_image[0]%>" class="card-img-top" alt="Product Image">
+                                </a>
+                                <div class="card-body text-center bg-light">
+                                    <h5 class="card-title"><%=data[i].product_name%></h5>
+                                    <% if(data[i].product_stock>0){%>
+                                        <h4 style="color: green;">In Stock</h4>
+                                        <%}
+                                        else{%>
+                                            <h4 style="color: red;">Out of Stock</h4><%}%>
+                                    <!-- <a href="#" class="btn btn-primary">Add to Cart</a> -->
+                                    <% for (let j = 0; j < userDetails[0].cart.length; j++) { %>
+                                        <% if (data[i].product_id === userDetails[0].cart[j].product_id) { %>
+                                            <% existCart = true; break; %>
+                                        <% } %>
+                                    <% } %>
+                                    <% if (existCart) { %>
+                                        <button type="button" class="btn btn-lg btn-primary">
+                                            <a href="/cart?userData=<%= userDetails[0].username %>"
+                                                style="text-decoration: none; color: black;">Go To Cart</a>
+                                        </button>
+                                    <% } else { %>
+                                        <button type="button" class="btn btn-lg btn-primary">
+                                            <a href="/addtocart?prodData=<%= data[i].product_id %>"
+                                                style="text-decoration: none; color: black;">Add To Cart</a>
+                                        </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div><%}%>
+                    <!-- Add more featured product cards here -->
+                </div>
+                <%}
+            %>
+        
+    </div>
+</section>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+
+    
+</body>
+</html>

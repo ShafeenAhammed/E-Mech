@@ -1,0 +1,81 @@
+<%- include('userNavBar')%>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Side Navigation Bar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar navbar navbar-expand-md">
+            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="sidebarNav">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/userprofile">
+                                Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/useraddressmanagement">
+                                Addresses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/orderhistory">
+                                Order History
+                            </a>
+                        </li>
+                    </ul>
+            </div>
+            </div>
+            
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="container" >
+                <h1 class="mt-4 mb-4">User Addresses</h1>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <a href="/addaddress" style="text-decoration: none; ">
+                            <div class="card">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center" style="height: 10rem;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-plus-circle-fill bigger-svg" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                                    </svg>
+                                    <p class="card-text">Add new address</p>
+                                      
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <%
+                    for(let i=0;i<userDetails[0].useraddress.length;i++){%>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-body" style="height: 10rem;">
+                                    <h5 class="card-title"><%= userDetails[0].useraddress[i].name %></h5>
+                                    <p class="card-text"><%= userDetails[0].useraddress[i].houseNumber %>,
+                                        <%= userDetails[0].useraddress[i].area %>,
+                                        <%= userDetails[0].useraddress[i].city %>,
+                                        <%= userDetails[0].useraddress[i].state %>,
+                                        pincode:<%= userDetails[0].useraddress[i].pincode %>,
+                                        mobile:<%= userDetails[0].useraddress[i].mobile %></p>
+                                    <a href="/editaddress?id=<%= userDetails[0].useraddress[i]._id%>" class="btn btn-primary">Edit</a>
+                                    <a href="/deleteaddress?id=<%= userDetails[0].useraddress[i]._id%>" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                        <%}
+                    %>
+                    
+                </div>
+        </main>
+        <footer class="bg-dark text-white text-center py-3">
+            <div class="container">
+                <p>&copy; 2023 Your Company. All rights reserved.</p>
+            </div>
+        </footer>
+    
+    </body>
+    
+    </html>
+    

@@ -1,0 +1,65 @@
+<%- include('userNavBar')%>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Order Details</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Delivery Address and Payment Method -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h5>Delivery Address</h5>
+                            <h5 class="card-title"><%= order.delivery_address.name %></h5>
+                                    <p class="card-text"><%= order.delivery_address.houseNumber %>,
+                                        <%= order.delivery_address.area %>,
+                                        <%= order.delivery_address.city %>,
+                                        <%= order.delivery_address.state %>,
+                                        pincode:<%= order.delivery_address.pincode %>,
+                                        mobile:<%= order.delivery_address.mobile %></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Payment Method</h5>
+                            <p><%=order.payment_method%></p>
+                            <% if(order.payment_method==="onlinePayment"){%>
+                                <h5>Transaction ID</h5>
+                                <p><%=order.transaction_id%></p>
+                            <%}%>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <h5>Product Details</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                            for(let i=0;i<order.order_items.length;i++){%>
+                                <tr>
+                                    <td><%=order.order_items[i].product_name%></td>
+                                    <td><%=order.order_items[i].product_quantity%></td>
+                                </tr>  
+                            <%}
+                            %>
+                            
+                            <!-- Add more rows for other products -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

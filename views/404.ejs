@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Error - Page Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/static/jorge-zapata-pBs0koIAF3s-unsplash.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            color: #ffffff; /* Text color on the background image */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .error-code {
+            font-size: 100px;
+            color: #f44336;
+        }
+
+        .error-message {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 40px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: bold;
+            border: 2px solid #ffffff;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        @media screen and (max-width: 600px) {
+            .error-code {
+                font-size: 60px;
+            }
+
+            .error-message {
+                font-size: 18px;
+            }
+
+            .back-button {
+                margin-top: 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-code">404</div>
+        <div class="error-message">Oops! Page not found.</div>
+        <p>The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <a href="/" class="back-button">Go back to the homepage</a>
+    </div>
+</body>
+</html>

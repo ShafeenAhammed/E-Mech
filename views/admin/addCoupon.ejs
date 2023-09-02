@@ -1,0 +1,152 @@
+<%- include('adminNavbar')%>
+    <section style="background-color: rgb(201, 209, 206);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card mt-5 mb-5 border-warning border-3">
+                        <div class="card-header bg-warning text-white text-center">
+                            <h4 class="mb-0 text-dark">Add Coupon</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="/admin_panel/coupon_management/add_coupon" method="post" onsubmit="return validateAll()">
+                                <div class="mb-3">
+                                    <label for="couponcode" class="form-label" hidden>Coupon code</label>
+                                    <input type="text" class="form-control" id="couponcode" name="coupon_Code" placeholder="Enter coupon code"
+                                        hidden >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="couponName" class="form-label">Coupon Name</label>
+                                    <input type="text" class="form-control" id="couponName" name="coupon_Name"
+                                        placeholder="Enter coupon Name" onblur="validateName()" >
+                                    <span id="vldname" style="color: red;"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="minPurchaseAmt" class="form-label">Minimum Purchase Amount</label>
+                                    <input type="text" class="form-control" id="couponMaxAmt" name="minPurchaseAmt"
+                                        placeholder="Enter minimum purchase amount" onblur="validateMaxAmt()" >
+                                    <span id="vldamt" style="color: red;"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="couponPercentage" class="form-label">Coupon Discount Percentage</label>
+                                    <input type="text" class="form-control" id="couponPercentage" name="coupon_DiscoutPercentage"
+                                        placeholder="Enter discount Percentage" onblur="validatePercent()" >
+                                    <span id="vldpercentage" style="color: red;"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="couponMaxAmt" class="form-label">Coupon Max Amt</label>
+                                    <input type="text" class="form-control" id="couponMaxAmt" name="coupon_MaxAmount"
+                                        placeholder="Enter coupon max amount" onblur="validateMaxAmt()" >
+                                    <span id="vldamt" style="color: red;"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="couponcount" class="form-label">Coupon count</label>
+                                    <input type="text" class="form-control" id="couponcount" name="coupon_Count"
+                                        placeholder="Enter count of coupon" onblur="validateCount()" >
+                                    <span id="vldnum" style="color: red;"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="couponexpdate" class="form-label">Coupon count</label>
+                                    <input type="date" class="form-control" id="couponexpdate" name="exp_date"
+                                        placeholder="Enter exp date of coupon" onblur="validateDate()" >
+                                    <span id="vlddate" style="color: red;"></span>
+                                </div>
+                                
+                                
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-outline-warning btn-block  text-dark"><b>Add Coupon</b></button>
+                                </div>
+                                <br>
+                                <% if(locals.msg){ %>
+                                    <div class="alert alert-danger text-center"><%= msg%></div>
+                                <%}%>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap JS -->
+    
+    </body>
+    <script>
+
+        function validateName(){
+            const user=document.getElementById("couponName").value;
+            if(user===""){
+                document.getElementById("vldname").innerHTML="Enter coupon name";
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function validatePercent() {
+            const price = document.getElementById("couponPercentage").value;
+            if(/^(100(\.0{1,2})?|[1-9]?\d(\.\d{1,2})?)%$/.test(price)){
+                return true;
+            }else{
+                document.getElementById("vldpercentage").innerHTML="Enter valid percentage";
+                return false;
+            }
+        }
+
+        function validateMaxAmt() {
+            const price = document.getElementById("couponMaxAmt").value;
+            if(/^\d+(\.\d{1,2})?$/.test(price)){
+                return true;
+            }else{
+                document.getElementById("vldamt").innerHTML="Enter valid amount";
+                return false;
+            }
+        }
+
+        
+
+        function validateCount() {
+            const stock = document.getElementById("couponcount").value;
+            if(/^[0-9]\d*$/.test(stock)){
+                return true;
+            }else{
+                document.getElementById("vldnum").innerHTML="Enter valid count";
+                return false;
+            }
+        }
+
+       
+        function validateDate(){
+            const user=document.getElementById("couponexpdate").value;
+            if(user===""){
+                document.getElementById("vlddate").innerHTML="Enter exp date";
+                return false;
+            }else{
+                return true;
+            }
+        }
+       
+        
+    
+        function validateAll(){
+            if(validateName() && validatePercent() && validateMaxAmt() && validateCount() && validateDate()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    
+    </script>
+    </html>

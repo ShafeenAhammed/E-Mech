@@ -1,0 +1,115 @@
+<%- include('adminNavBar')%>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <!-- User Details Card - Left Side -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>User Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5>Name: <%= data.name%></h5>
+                        <h5>Addresses:</h5>
+                        <ul>
+                            <%
+                            for(let i=0;i<data.useraddress.length;i++){%>
+                            <li><b><u>Address 1</u>: </b><%= data.useraddress[i].name %>,<%= data.useraddress[i].houseNumber %>,
+                                <%= data.useraddress[i].area %>,
+                                <%= data.useraddress[i].city %>,
+                                <%= data.useraddress[i].state %>,
+                                pincode:<%= data.useraddress[i].pincode %>,
+                                mobile:<%= data.useraddress[i].mobile %></li>
+                            <%}%>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Wishlist Card -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4>Wishlist</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover mx-2">
+                            <thead class="">
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Product Price</th>
+                                    <th>Image</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                for(let i=0;i<data.wishlist.length;i++){%>
+                                    <tr>
+                                        <td><%= data.wishlist[i].product_name%></td>
+                                        <td><%= data.wishlist[i].product_price%></td>
+                                        <td><img src="/static/uploads/<%= data.wishlist[i].product_image %>"
+                                            class="img-fluid" alt="Generic placeholder image" width="100"  height="100"></td>
+                                    </tr>
+                                    
+                                    <%}
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4>Cart</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover mx-2">
+                            <thead class="">
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Product Price</th>
+                                    <th>Product Qty</th>
+                                    <th>Image</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                for(let i=0;i<data.cart.length;i++){%>
+                                    <tr>
+                                        <td><%= data.cart[i].product_name%></td>
+                                        <td><%= data.cart[i].product_price%></td>
+                                        <td><%= data.cart[i].product_quantity%></td>
+                                        <td><img src="/static/uploads/<%= data.cart[i].product_image %>"
+                                            class="img-fluid" alt="Generic placeholder image" width="100"  height="100"></td>
+                                    </tr>
+                                    
+                                    <%}
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Contact Info Card - Right Side -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Contact Info</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5>Email: <%= data.useremail%></h5>
+                        <h5>Contact Number: <%= data.userContact%></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2023 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

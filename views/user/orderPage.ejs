@@ -1,0 +1,196 @@
+<%- include('userNavBar')%>
+<div class="container mt-5" >
+    <h1>Your Orders</h1>
+    <br>
+    <% for(let i=0;i<orders.length;i++){%>
+        <div class="row">
+            <div class="col-md-10">
+              <div class="card mb-4" style="box-shadow: 0px 5px 10px rgba(36, 31, 31, 0.5);">
+                <div class="card-header">
+                  <div class="row">
+                      <div class="col">
+                          <h5 class="card-title">OrderID: <%=orders[i].order_id%></h5>
+                      </div>
+                      <div class="col text-end">
+                          <a href="/ordersdetails?id=<%=orders[i].order_id%>" class="card-link">View Order Details</a>
+                          <%if(orders[i].order_status=="Delivered" || orders[i].payment_method=="UPI" || orders[i].payment_method=="walletPayment"){%>
+                            <a href="/invoice?id=<%=orders[i].order_id%>" class="card-link">Invoice</a>
+                        <%}else{%>
+                            <!-- <a href="/invoice?id=<%=orders[i].order_id%>" class="card-link" >Invoice</a> -->
+                            <span class="card-link inactive">Invoice</span>
+                            <%}
+                        
+                        %>
+                          
+                      </div>
+                  </div>
+                <div class="row">
+                    <div class="col">
+                        <%
+                        const dateObj = new Date(orders[i].purchase_date);
+                        const purchaseDate = dateObj.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        %>
+                        <p class="card-text"><b>Ordered Date:</b><br>
+                            <%=purchaseDate%>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text"><b>Total Amount:</b><br>
+                            <%=orders[i].total_amount%>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text"><b>Customer Name:</b><br>
+                            <%=orders[i].customer_name%>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <%
+                        const ExpDateObj = new Date(orders[i].delivery_date);
+
+                        
+                        const ExpDate = ExpDateObj.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        %>
+                        <%if(orders[i].order_status=="Delivered" || orders[i].order_status=="Cancelled" || orders[i].order_status=="Returned"){%>
+                            <p class="card-text"><b>Delivered Date:</b><br>
+                                <%=ExpDate%>
+                            </p>
+                        <%}else if(orders[i].order_status=="Placed"){%>
+                            <p class="card-text"><b>Expected Delivery Date:</b><br>
+                                <%=ExpDate%>
+                            </p>
+                        <%}%>
+                        
+                    </div>
+                </div>
+                </div>
+                <div class="card-body">
+                    <% for(let j=0;j<orders[i].order_items.length;j++){%>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="/static/uploads/<%= orders[i].order_items[j].product_image%>" alt="Product 1" class="img-fluid mb-2" width="200" height="160">
+                            </div>
+                            <div class="col-md-8">
+                                <h6>Product Name: <%= orders[i].order_items[j].product_name%></h6>
+                                <p>Price:Rs <%= orders[i].order_items[j].product_price%></p>
+                                <%
+                                    const ExpDateObj = new Date(orders[i].delivery_date);
+                                    const returnDateObj = new Date(ExpDateObj);
+                                    returnDateObj.setDate(returnDateObj.getDate() + 14);
+
+                                    const ExpDate = ExpDateObj.toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    });
+
+                                    const returnDate = returnDateObj.toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    });
+                                %>
+
+                                <p>Return Period till: <%= returnDate%></p>
+                                
+                            </div>
+                        </div>
+                        <hr>
+                        <%}%>
+                        <%if(orders[i].order_status=="Delivered"){%>
+
+                            <%
+                            const ExpDateObj = new Date(orders[i].delivery_date);
+                            const returnDateObj = new Date(ExpDateObj);
+                            returnDateObj.setDate(returnDateObj.getDate() + 14);
+                            const returnDate = returnDateObj.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                            const  currDate= new Date();
+                            %>
+                            <%if(currDate < returnDateObj){%>
+                                <a class="btn btn-md btn-primary" href="/returnorder?id=<%=orders[i].order_id%>" role="button">Return Order</a>
+                            <%}else{%>
+                                <span style="color: red;">Return period closed on <%= returnDate%></span>
+                            <%}%>
+                            
+                        <%}else if(orders[i].order_status=="Placed"){%>
+                            <a class="btn btn-md btn-primary cancel-order-btn" href="/cancelorder?id=<%=orders[i].order_id%>" role="button" data-order-id="<%= orders[i].order_id %>">Cancel Order</a>
+                        <%}else if(orders[i].order_status=="Returned"){%>
+                            <h4 style="color: red;">Order Returned</h4>
+                        <%}else if(orders[i].order_status=="Cancelled"){%>
+                            <h4 style="color: red;">Order Cancelled</h4>
+                        <%}
+                        
+                        %>
+                </div>
+              </div>
+            
+            </div>
+            <!-- Repeat similar structure for other orders -->
+          </div>
+          <br>
+        <%}%>
+
+</div>
+<br>
+<div class="d-flex justify-content-center mt-4 align-items-centre">
+    <% if (currentPage > 1) { %>
+      <a class="btn btn-secondary mx-2" href="?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+    <% } %>
+    <a class="btn btn-primary mx-2" href="?page=<%= currentPage %>"><%= currentPage%></a>
+    <% if (currentPage < totalPages) { %>
+      <a class="btn btn-secondary mx-2" href="?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+    <% } %>
+</div>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Add a click event listener to the "Cancel Order" buttons
+        document.querySelectorAll(".cancel-order-btn").forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+                const orderId = this.getAttribute("data-order-id");
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, cancel it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Perform the cancel order action (e.g., send an AJAX request)
+                        window.location.href = '/cancelorder?id='+orderId
+                        // Once the action is completed, you can show a success message
+                        Swal.fire(
+                            'Cancelled!',
+                            'Your order has been cancelled.',
+                            'success'
+                        );
+                    }
+                });
+            });
+        });
+    }
+    );
+
+</script>
+</body>
+</html>
