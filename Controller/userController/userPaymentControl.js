@@ -146,7 +146,7 @@ module.exports={
                         }
                         else {
                             console.log(err);
-                            res.status(400).send({ success: false, msg: 'Something went wrong!' });
+                            res.status(500).send({ success: false, msg: 'Something went wrong!' });
                         }
                     }
                 );
