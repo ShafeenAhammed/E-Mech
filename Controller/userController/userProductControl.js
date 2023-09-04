@@ -6,7 +6,8 @@ module.exports={
     // product search
     search: async (req,res)=>{
         try {
-            
+            console.log(req.query);
+            const search= req.query.search;
             const itemsPerPage = 2; // Number of products per page
             const page = parseInt(req.query.page) || 1; // Current page number
             const categoryDetails= await categoryCollection.find();
@@ -54,7 +55,7 @@ module.exports={
             console.log("here",searchResults);
             if (searchResults == "") {
                 
-                res.render('allproductsPage', { msg: "No Data!", data: searchResults, userDetails,categoryDetails,totalProducts,currentPage:page,totalPages: Math.ceil(searchResults.length / itemsPerPage), session:session });
+                res.render('allproductsPage', { msg: "No Data!", data: searchResults, userDetails,categoryDetails,totalProducts,currentPage:page,totalPages: Math.ceil(searchResults.length / itemsPerPage) });
             } else {
                 const searchResultsPaginated = searchResults.slice((page - 1) * itemsPerPage, page * itemsPerPage);
                 
@@ -65,8 +66,7 @@ module.exports={
                     categoryDetails,
                     totalProducts,
                     currentPage: page,
-                    totalPages: Math.ceil(searchResults.length / itemsPerPage),
-                    session:session
+                    totalPages: Math.ceil(searchResults.length / itemsPerPage)
                 });
 
             }
