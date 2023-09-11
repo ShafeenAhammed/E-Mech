@@ -7,7 +7,7 @@ module.exports={
     // load order management
     loadOrderManagement: async(req,res)=>{
         try{
-            const dataPerPage = 2; 
+            const dataPerPage = 10; 
             const page = parseInt(req.query.page) || 1;
             const totalCount = await orderCollection.countDocuments();
             const totalPages = Math.ceil(totalCount / dataPerPage);

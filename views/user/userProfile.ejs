@@ -15,6 +15,20 @@
         color: #fff; /* Adjust text color as needed */
         padding: 10px 0; /* Add padding for better appearance */
     }
+    /* Style for the profile section */
+    .profile-section {
+        background-color: #f7f7f7;
+        padding: 50px;
+        padding-left: 6rem;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    /* Style for profile info */
+    .profile-info p {
+        margin: 5px 0;
+    }
 </style>
 
 <div class="content-wrapper">
@@ -48,9 +62,8 @@
                 </div>
                 
             </nav>
-            
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-5 justify-content-center">
                 <!-- User Profile Section -->
                 <div class="profile-section">
                     <h2>User Profile</h2>
@@ -58,13 +71,10 @@
                         <p><strong>Name:</strong> <%=userDetails[0].username%></p>
                         <p><strong>Email:</strong> <%=userDetails[0].useremail%></p>
                         <p><strong>Mobile Number:</strong> <%=userDetails[0].userContact%></p>
-                        <p><strong>Number of Orders:</strong> <%= orders%> </p>
+                        <p><strong>Number of Orders:</strong> <%= orders%></p>
                         <p><strong>Wallet Balance:</strong> Rs.<%=userDetails[0].walletbalance%></p>
                     </div>
                 </div>
-            
-                <!-- Other content goes here -->
-            </main>
             
         </div>
     </div>

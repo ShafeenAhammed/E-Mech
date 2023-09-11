@@ -8,7 +8,7 @@ const PORT=process.env.PORT || 5000;
 
 const mongoose=require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/EMech").then(()=>console.log("MongoDB connected...")).catch(()=>console.log("MongoDB failed to conenct"));
+mongoose.connect("mongodb+srv://ahammedshafeen10:maRbCqZjF1RNZqVf@cluster0.9bbvacv.mongodb.net/?retryWrites=true&w=majority").then(()=>console.log("MongoDB connected...")).catch((err)=>console.log("MongoDB failed to conenct",err));
 
 app.set('view engine', 'ejs');
 

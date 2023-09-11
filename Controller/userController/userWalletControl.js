@@ -83,12 +83,15 @@ module.exports={
     loadWalletHistory: async(req,res)=>{
         try{
             const userDetails = await usercollection.find({ username: req.session.user });
+            const walletHistory= await usercollection.findOne({ username: req.session.user },{wallethistory:1,_id:0});
+            if (walletHistory) {
+                walletHistory.wallethistory.sort((a, b) => b.date - a.date); // Sort in descending order by date
+              }
             let totalProducts = 0;
             for (let i = 0; i < userDetails[0].cart.length; i++) {
                 totalProducts += userDetails[0].cart[i].product_quantity;
             }
-            // const user = await usercollection.findOne({ username: req.session.user });
-            res.render('walletHistory',{userDetails,totalProducts});
+            res.render('walletHistory',{userDetails,totalProducts,wallethistory:walletHistory.wallethistory});
         }
         catch(err){
             console.log("Error in loading wallet history",err);

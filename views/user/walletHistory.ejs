@@ -1,30 +1,57 @@
 <%- include('userNavBar')%>
-<div class="container mt-5">
-    <h1 class="mb-4">Wallet History</h1>
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Process</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Loop through wallet history transactions -->
-                        <% for (const history of userDetails[0].wallethistory) { %>
-                            <tr>
-                                <td><%= history.process %></td>
-                                <td class="<%= (history.process === 'TopUp' || history.process === 'Refund') ? 'text-success' : 'text-danger' %>">
-                                    <span><%= (history.process === 'TopUp' || history.process === 'Refund') ? '+' : '-'%> <strong><%= history.amount %></strong>
-                                </td>
-                                <td><%= history.date.toLocaleString() %></td>
-                            </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+<style>
+    /* Style for the content wrapper */
+    .content-wrapper {
+        min-height: 100vh; /* Ensure the content wrapper takes at least the full viewport height */
+        position: relative; /* Needed for positioning the footer */
+        padding-bottom: 70px; /* Adjust this value to match your footer's height */
+    }
+    /* Style for the footer */
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #333; /* Adjust background color as needed */
+        color: #fff; /* Adjust text color as needed */
+        padding: 10px 0; /* Add padding for better appearance */
+    }
+</style>
+<div class="content-wrapper">
+    <div class="container mt-5">
+        <h1 class="mb-4">Wallet History</h1>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <%
+                if(wallethistory.length>0){%>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Process</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Loop through wallet history transactions -->
+                                <% for (const history of wallethistory) { %>
+                                    <tr>
+                                        <td><%= history.process %></td>
+                                        <td class="<%= (history.process === 'TopUp' || history.process === 'Refund') ? 'text-success' : 'text-danger' %>">
+                                            <span><%= (history.process === 'TopUp' || history.process === 'Refund') ? '+' : '-'%> <strong><%= history.amount %></strong>
+                                        </td>
+                                        <td><%= history.date.toLocaleString() %></td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <%}
+                    else{%>
+                    <h3>No wallet transactions</h3>
+                    <%}
+                %>
+    
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ module.exports={
     // product search
     search: async (req,res)=>{
         try {
-            const search= req.query.search;
+            
             const itemsPerPage = 2; // Number of products per page
             const page = parseInt(req.query.page) || 1; // Current page number
             const categoryDetails= await categoryCollection.find();
