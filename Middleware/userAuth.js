@@ -23,12 +23,19 @@ module.exports={
             res.redirect('/user_signin');
     },
     blocked: async (req,res,next)=>{
-        const check= await usercollection.findOne({username:req.body.username})
-        if(check.isBlocked){
-            return res.status(500).send("User is Blocked");
-        }else{
-            next();
+        try{
+            const check= await usercollection.findOne({username:req.body.username})
+            console.log("block data",check);
+            if(check.isBlocked){
+                return res.status(500).send("User is Blocked");
+            }else{
+                next();
+            }
         }
+        catch(err){
+            console.log("Err in block",err);
+        }
+        
     },
 
     otpGenerate: async(req,res,next)=>{

@@ -6,6 +6,7 @@ module.exports={
     // product search
     search: async (req,res)=>{
         try {
+
             const search= req.query.search;
             const itemsPerPage = 2; // Number of products per page
             const page = parseInt(req.query.page) || 1; // Current page number
@@ -54,7 +55,10 @@ module.exports={
             console.log("here",searchResults);
             if (searchResults == "") {
                 
+
                 res.render('allproductsPage', { msg: "No Data!", data: searchResults, userDetails,categoryDetails,totalProducts,currentPage:page,totalPages: Math.ceil(searchResults.length / itemsPerPage)});
+
+
             } else {
                 const searchResultsPaginated = searchResults.slice((page - 1) * itemsPerPage, page * itemsPerPage);
                 
