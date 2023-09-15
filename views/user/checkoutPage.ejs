@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <% if(locals.discountedTotal){ %>
-                        <input type="number" name="total" value="<%=discountedTotal%>" hidden >
+                        <input type="number" id="discountedTotal" name="total" value="<%=discountedTotal%>" hidden >
                         <input type="text" id="couponName" name="couponName" value="<%= couponName%>" hidden>
                     <%}
                     else{%>
@@ -208,8 +208,12 @@
                                 "image": "https://dummyimage.com/600x400/000/fff",
                                 "handler": function (response) {
                                     razorpayPaymentId = response.razorpay_payment_id;
-                                    const couponNameInput = document.getElementById('couponName');
-                                    const couponName = couponNameInput.value;
+                                    var couponName = "";
+                                    const discountedTotalInput = document.getElementById('discountedTotal');
+                                    if(discountedTotalInput && discountedTotalInput.value !==""){
+                                        const couponNameInput = document.getElementById('couponName');
+                                        couponName = couponNameInput.value;
+                                    }
                                     // console.log("paymnet id",razorpayPaymentId);
                                     $.ajax({
                                         url: "/verify-payment",
