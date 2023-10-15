@@ -75,6 +75,7 @@ module.exports={
                 }
                 else{
                     await usercollection.insertMany([data]);
+                    req.session.email=data.useremail;
                     req.session.user= req.body.username;
                     res.redirect("/otp_verification");
                 }

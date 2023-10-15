@@ -73,7 +73,7 @@ module.exports={
             const qty=  await usercollection.findOne({'cart.product_id':req.query.id},{'cart.product_quantity.$': 1,_id:0});
             if(qty.cart[0].product_quantity<product.product_stock){
                 await usercollection.updateOne(
-                    { 'cart.product_id': req.query.id },
+                    { username:req.session.user,'cart.product_id': req.query.id },
                     { $inc: { 'cart.$.product_quantity': 1 } }
                 );
                 res.redirect('/cart');
@@ -96,7 +96,7 @@ module.exports={
             
             if(qty.cart[0].product_quantity>1){
                 await usercollection.updateOne(
-                    { 'cart.product_id': req.query.id },
+                    { username:req.session.user,'cart.product_id': req.query.id },
                     { $inc: { 'cart.$.product_quantity': -1 } }
                   );
             }
